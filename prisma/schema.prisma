@@ -24,13 +24,14 @@ model Doctor {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
-  firstName  String?
-  lastName   String?
-  patronymic String?
-  email      String  @unique
-  snils      String  @unique
-  password   String?
+  id           Int      @id @default(autoincrement())
+  firstName    String?
+  lastName     String?
+  patronymic   String?
+  email        String   @unique
+  snils        String   @unique
+  password     String?
+  dateOfBearth DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
   userIndicatorsIdUI Int?
@@ -72,6 +73,7 @@ model LiverIndicator {
   id    Int @id @default(autoincrement())
   idUI  Int
   value Int
+  createdAt DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
   userIndicatorsIdUI Int?

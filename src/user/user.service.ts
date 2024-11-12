@@ -6,6 +6,5 @@ const prisma = new PrismaClient()
 export class UserService {
     async findAll(){
         const allUsers = await prisma.user.findMany()
-        console.log(allUsers)
     }
 }
