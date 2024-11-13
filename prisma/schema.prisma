@@ -30,7 +30,7 @@ model User {
   patronymic   String?
   email        String   @unique
   snils        String   @unique
-  password     String?
+  password     String
   dateOfBearth DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
@@ -70,9 +70,9 @@ model HeartIndicator {
 }
 
 model LiverIndicator {
-  id    Int @id @default(autoincrement())
-  idUI  Int
-  value Int
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  value     Int
   createdAt DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
