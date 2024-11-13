@@ -21,15 +21,15 @@ export class CreateUserDto {
 
   @ApiProperty({ example: '12345678901', description: 'The snils of the user(11 symbols)' })
   @IsString()
-  snils: string;
+  idCard: string;
 
   @ApiProperty({ example: '1234', description: 'The password of the user' })
   @IsString()
   //   @MinLength(6, {message: 'Password must be more then 6 symbols'})
   password: string;
 
-  @ApiProperty({ example: '2000-11-13T10:30:00.000Z', description: 'The dateOfBearth of the user(year-month-dayThour:minutes:seconds.milisecondsZ   ---- Z означает, что время указано в UTC)' })
+  @ApiProperty({ example: '2000-11-13T10:30:00.000Z', description: 'The dateOfBirth of the user(year-month-dayThour:minutes:seconds.milisecondsZ   ---- Z означает, что время указано в UTC)' })
   @Type(() => Date)
   @IsDate()
-  dateOfBearth: Date;
+  dateOfBirth: Date;
 }

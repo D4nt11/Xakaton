@@ -3,10 +3,12 @@ import { PrismaClient } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 const prisma = new PrismaClient();
 @Injectable()
 export class UserService {
+  constructor(private readonly jwtService: JwtService){}
   async create(createUserDto: CreateUserDto) {
     const existUser = await prisma.user.findUnique({
       where: {
@@ -15,7 +17,7 @@ export class UserService {
     });
     const existUser2 = await prisma.user.findUnique({
       where: {
-        snils: createUserDto.snils,
+        idCard: createUserDto.idCard,
       },
     });
     if (existUser && existUser2)
@@ -29,22 +31,23 @@ export class UserService {
         lastName: createUserDto.lastName,
         patronymic: createUserDto.patronymic,
         email: createUserDto.email,
-        snils: createUserDto.snils,
+        idCard: createUserDto.idCard,
         password: await bcrypt.hash(createUserDto.password, salt),
-        dateOfBearth: createUserDto.dateOfBearth,
+        dateOfBirth: createUserDto.dateOfBirth,
       },
     });
-    return { user };
+    const token = this.jwtService.sign({email: createUserDto.email})
+    return { user, token };
   }
 
   async findAll() {
     const allUsers = await prisma.user.findMany();
   }
 
-  async findOne(id: string) {
+  async findOne(email: string) {
     return await prisma.user.findUnique({
       where: {
-        id: +id,
+        email,
       },
     });
   }

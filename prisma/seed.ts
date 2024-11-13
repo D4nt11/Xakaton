@@ -9,9 +9,9 @@ async function main() {
             firstName:'Alice',
             lastName:'Brue',
             patronymic:'Rolf',
-            snils:'123',
+            idCard:'123',
             password:'123',
-            dateOfBearth: new Date('2023-11-13T10:30:00Z'),
+            dateOfBirth: new Date('2023-11-13T10:30:00Z'),
         }
     })
     const bob = await prisma.user.upsert({
@@ -22,9 +22,9 @@ async function main() {
             firstName:'Bob',
             lastName:'Brue',
             patronymic:'Rolf',
-            snils:'1234',
+            idCard:'1234',
             password:'123',
-            dateOfBearth: new Date('2023-11-13T10:30:00Z'),
+            dateOfBirth: new Date('2023-11-13T10:30:00Z'),
         }
     })
 }

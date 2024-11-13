@@ -24,14 +24,14 @@ model Doctor {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  firstName    String?
-  lastName     String?
-  patronymic   String?
-  email        String   @unique
-  snils        String   @unique
-  password     String
-  dateOfBearth DateTime
+  id          Int      @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  patronymic  String?
+  email       String   @unique
+  idCard      String   @unique
+  password    String
+  dateOfBirth DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
   userIndicatorsIdUI Int?
@@ -55,12 +55,20 @@ model UserIndicators {
 
   indicators Indicator[]
 
-  heartIndicators HeartIndicator[]
+  pulsIndicators PulseIndicator[]
 
-  liverIndicators LiverIndicator[]
+  heightIndicators HeightIndicator[]
+
+  weightIndicator WeightIndicator[]
+
+  pressureIndicator PressureIndicator[]
+
+  dreamIndicator DreamIndicator[]
+
+  stepsIndicator StepIndicator[]
 }
 
-model HeartIndicator {
+model PulseIndicator {
   id    Int @id @default(autoincrement())
   idUI  Int
   value Int
@@ -69,7 +77,48 @@ model HeartIndicator {
   userIndicatorsIdUI Int?
 }
 
-model LiverIndicator {
+model HeightIndicator {
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  value     Int
+  createdAt DateTime
+
+  UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
+  userIndicatorsIdUI Int?
+}
+
+model WeightIndicator {
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  value     Int
+  createdAt DateTime
+
+  UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
+  userIndicatorsIdUI Int?
+}
+
+model PressureIndicator {
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  valueUp   Int
+  valueDown Int
+  createdAt DateTime
+
+  UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
+  userIndicatorsIdUI Int?
+}
+
+model DreamIndicator {
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  value     Int
+  createdAt DateTime
+
+  UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
+  userIndicatorsIdUI Int?
+}
+
+model StepIndicator {
   id        Int      @id @default(autoincrement())
   idUI      Int
   value     Int
