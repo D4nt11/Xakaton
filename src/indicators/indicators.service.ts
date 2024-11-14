@@ -158,7 +158,7 @@ export class IndicatorsService {
   }
 
   async createStepIndicator(createIndicatorDto: CreateIndicatorDto) {
-    const indicatorId = 3;
+    const indicatorId = 6;
 
     const userIndicators = await prisma.userIndicators.upsert({
       where: {
@@ -184,12 +184,129 @@ export class IndicatorsService {
     return { stepIndicator };
   }
 
+
+
+
   async findAllPulse(id: number) {
-    const allPulse = await prisma.pulseIndicator.findMany
+    const indicatorId = 1;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.pulseIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
   }
 
-  findAll(){
-    return "findAll"
+
+
+  async findAllHeight(id: number) {
+    const indicatorId = 2;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.heightIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
+  }
+
+
+
+  async findAllWeight(id: number) {
+    const indicatorId = 3;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.weightIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
+  }
+
+
+  async findAllPressure(id: number) {
+    const indicatorId = 4;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.pressureIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
+  }
+
+
+
+  async findAllDream(id: number) {
+    const indicatorId = 5;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.dreamIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
+  }
+
+
+
+  async findAllStep(id: number) {
+    const indicatorId = 6;
+    const idUIPulse = await prisma.userIndicators.findUnique({
+      where: {
+        userId_indicatorId: {
+          userId: id,
+          indicatorId: indicatorId,
+        },
+      },
+    });
+    const allIndicators = await prisma.stepIndicator.findMany({
+      where:{
+        idUI: idUIPulse.idUI,
+      }
+    })
+    return {allIndicators}
+  }
+
+
+  findAll() {
+    return 'findAll';
   }
 
   findOne(id: number) {

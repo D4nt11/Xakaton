@@ -43,9 +43,34 @@ export class IndicatorsController {
     return this.indicatorsService.createStepIndicator(createIndicatorDto);
   }
 
-  @Get('pulse/get/all/:id')
+  @Get('pulse/:id')
   findAllPulse(@Param('id') id: string) {
     return this.indicatorsService.findAllPulse(+id);
+  }
+
+  @Get('height/:id')
+  findAllHeight(@Param('id') id: string) {
+    return this.indicatorsService.findAllHeight(+id);
+  }
+
+  @Get('weight/:id')
+  findAllWeight(@Param('id') id: string) {
+    return this.indicatorsService.findAllWeight(+id);
+  }
+
+  @Get('pressure/:id')
+  findAllPressure(@Param('id') id: string) {
+    return this.indicatorsService.findAllPressure(+id);
+  }
+
+  @Get('dream/:id')
+  findAllDream(@Param('id') id: string) {
+    return this.indicatorsService.findAllDream(+id);
+  }
+
+  @Get('step/:id')
+  findAllStep(@Param('id') id: string) {
+    return this.indicatorsService.findAllStep(+id);
   }
 
   @Get()
