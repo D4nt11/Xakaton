@@ -38,9 +38,9 @@ model User {
 }
 
 model Indicator {
-  id    Int    @id @default(autoincrement())
+  id    Int     @id @default(autoincrement())
   name  String
-  image String
+  image String?
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
   userIndicatorsIdUI Int?
@@ -48,8 +48,10 @@ model Indicator {
 
 model UserIndicators {
   idUI        Int @id @default(autoincrement())
-  userId      Int @unique
-  indicatorId Int @unique
+  userId      Int
+  indicatorId Int
+
+  @@unique([userId, indicatorId])
 
   users User[]
 
@@ -69,9 +71,10 @@ model UserIndicators {
 }
 
 model PulseIndicator {
-  id    Int @id @default(autoincrement())
-  idUI  Int
-  value Int
+  id        Int      @id @default(autoincrement())
+  idUI      Int
+  value     Int
+  createdAt DateTime
 
   UserIndicators     UserIndicators? @relation(fields: [userIndicatorsIdUI], references: [idUI])
   userIndicatorsIdUI Int?
