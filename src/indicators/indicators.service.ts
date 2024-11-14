@@ -200,7 +200,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.pulseIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }
@@ -220,7 +223,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.heightIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }
@@ -240,7 +246,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.weightIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }
@@ -259,7 +268,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.pressureIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }
@@ -279,7 +291,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.dreamIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }
@@ -299,7 +314,10 @@ export class IndicatorsService {
     const allIndicators = await prisma.stepIndicator.findMany({
       where:{
         idUI: idUIPulse.idUI,
-      }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return {allIndicators}
   }

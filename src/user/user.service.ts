@@ -8,36 +8,72 @@ import { JwtService } from '@nestjs/jwt';
 const prisma = new PrismaClient();
 @Injectable()
 export class UserService {
-  constructor(private readonly jwtService: JwtService){}
+  constructor(private readonly jwtService: JwtService) {}
   async create(createUserDto: CreateUserDto) {
-    const existUser = await prisma.user.findUnique({
-      where: {
-        email: createUserDto.email,
-      },
-    });
-    const existUser2 = await prisma.user.findUnique({
-      where: {
-        idCard: createUserDto.idCard,
-      },
-    });
-    if (existUser && existUser2)
-      throw new BadRequestException('This email and snils already exist');
-    if (existUser) throw new BadRequestException('This email already exist');
-    if (existUser2) throw new BadRequestException('This snils already exist');
     const salt = await bcrypt.genSalt();
-    const user = await prisma.user.create({
-      data: {
-        firstName: createUserDto.firstName,
-        lastName: createUserDto.lastName,
-        patronymic: createUserDto.patronymic,
-        email: createUserDto.email,
-        idCard: createUserDto.idCard,
-        password: await bcrypt.hash(createUserDto.password, salt),
-        dateOfBirth: createUserDto.dateOfBirth,
-      },
-    });
-    const token = this.jwtService.sign({email: createUserDto.email})
-    return { user, token };
+    if (createUserDto.role == 'user') {
+      const existUser = await prisma.user.findUnique({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+      const existUser2 = await prisma.user.findUnique({
+        where: {
+          idCard: createUserDto.idCard,
+        },
+      });
+      const existDoctor = await prisma.doctor.findUnique({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+      if ((existUser || existDoctor) && existUser2)
+        throw new BadRequestException('This email and idCard already exist');
+      if (existUser || existDoctor) throw new BadRequestException('This email already exist');
+      if (existUser2) throw new BadRequestException('This idCard` already exist');
+
+      const user = await prisma.user.create({
+        data: {
+          firstName: createUserDto.firstName,
+          lastName: createUserDto.lastName,
+          patronymic: createUserDto.patronymic,
+          email: createUserDto.email,
+          idCard: createUserDto.idCard,
+          password: await bcrypt.hash(createUserDto.password, salt),
+          dateOfBirth: createUserDto.dateOfBirth,
+        },
+      });
+      const token = this.jwtService.sign({ email: createUserDto.email });
+      return { user, token };
+    } else if (createUserDto.role == 'doctor') {
+      const existDoctor = await prisma.doctor.findUnique({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+      const existUser = await prisma.user.findUnique({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+      if (existDoctor || existUser)
+        throw new BadRequestException('This email already exist');
+
+      const doctor = await prisma.doctor.create({
+        data: {
+          firstName: createUserDto.firstName,
+          lastName: createUserDto.lastName,
+          patronymic: createUserDto.patronymic,
+          email: createUserDto.email,
+          password: await bcrypt.hash(createUserDto.password, salt),
+          dateOfBirth: createUserDto.dateOfBirth,
+        },
+      });
+      const token = this.jwtService.sign({ email: createUserDto.email });
+      return { doctor, token };
+    } else {
+      throw new BadRequestException('Role is incorect');
+    }
   }
 
   async findAll() {
@@ -51,6 +87,16 @@ export class UserService {
       },
     });
   }
+
+  async findOneDoctor(email: string){
+    return await prisma.doctor.findUnique({
+      where:{
+        email
+      }
+    })
+  }
+
+
 
   update(id: number, UpdateUserDto: UpdateUserDto) {
     return 'This update';

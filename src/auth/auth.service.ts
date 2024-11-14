@@ -1,4 +1,4 @@
-import { UnauthorizedException, Injectable } from '@nestjs/common';
+import { UnauthorizedException, Injectable, BadRequestException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { User } from '@prisma/client';
@@ -16,12 +16,22 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user = await this.userService.findOne(email);
-    const pswd = await bcrypt.compare(password, user.password);
-
-    if (user && pswd) {
-      return user;
+    const doctor = await this.userService.findOneDoctor(email)
+    if(user){
+      const pswd = await bcrypt.compare(password, user.password);
+      if (user && pswd) {
+        return user;
+      }
     }
-    throw new UnauthorizedException('Email or password are incorrect');
+    else if(doctor){
+      const pswd = await bcrypt.compare(password, doctor.password);
+      if(doctor && pswd){
+        return doctor;
+      }
+    }
+    else{
+      throw new BadRequestException()
+    }
   }
 
   async login(user: IUser) {
